@@ -36,6 +36,11 @@ import {
   handleCreatorEarningsRequest,
 } from './handlers/creator-content';
 import { handleMemeGenerateRequest, handleMemeStylesRequest } from './handlers/meme-generator';
+import {
+  handleAIRouteQueryRequest,
+  handleJoinQueuesRequest,
+  handleCompleteTransactionRequest,
+} from './handlers/agri-procurement';
 
 // Import endpoint configuration
 import createPaymentConfig, { EndpointConfig } from './endpoints.config';
@@ -159,6 +164,11 @@ app.get('/weather', handleWeatherRequest);
 
 // Meme Generator - Pay $0.1 USDC (Payment Protected)
 app.post('/meme-generate', handleMemeGenerateRequest);
+
+// Agricultural procurement routes
+app.post('/farmer/ai-route', handleAIRouteQueryRequest);
+app.post('/farmer/join-queues', handleJoinQueuesRequest);
+app.post('/farmer/complete-transaction', handleCompleteTransactionRequest);
 
 
 // Example 2: Analytics - Uncomment to enable

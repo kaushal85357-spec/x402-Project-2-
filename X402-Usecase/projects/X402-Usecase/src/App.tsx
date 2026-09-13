@@ -3,6 +3,7 @@ import { SnackbarProvider } from 'notistack'
 import { useState } from 'react'
 import Home from './Home'
 import MemeHome from './MemeHome'
+import FarmerDashboard from './components/FarmerDashboard'
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
 let supportedWallets: SupportedWallet[]
@@ -23,17 +24,17 @@ if (import.meta.env.VITE_ALGOD_NETWORK === 'localnet') {
     { id: WalletId.DEFLY },
     { id: WalletId.PERA },
     { id: WalletId.EXODUS },
-    { id: WalletId.LUTE}
+    { id: WalletId.LUTE },
     // If you are interested in WalletConnect v2 provider
     // refer to https://github.com/TxnLab/use-wallet for detailed integration instructions
   ]
 }
 
-type TabType = 'weather' | 'meme'
+type TabType = 'farmer' | 'weather' | 'meme'
 
 export default function App() {
   const algodConfig = getAlgodConfigFromViteEnvironment()
-  const [activeTab, setActiveTab] = useState<TabType>('weather')
+  const [activeTab, setActiveTab] = useState<TabType>('farmer')
 
   const walletManager = new WalletManager({
     wallets: supportedWallets,
@@ -61,6 +62,16 @@ export default function App() {
             <div className="max-w-7xl mx-auto px-4">
               <div className="flex space-x-1">
                 <button
+                  onClick={() => setActiveTab('farmer')}
+                  className={`px-6 py-4 font-semibold transition-all ${
+                    activeTab === 'farmer'
+                      ? 'text-emerald-700 border-b-4 border-emerald-600 bg-emerald-50'
+                      : 'text-gray-600 hover:text-emerald-700 hover:bg-gray-50'
+                  }`}
+                >
+                  🌾 Farmer Console
+                </button>
+                <button
                   onClick={() => setActiveTab('weather')}
                   className={`px-6 py-4 font-semibold transition-all ${
                     activeTab === 'weather'
@@ -86,6 +97,7 @@ export default function App() {
 
           {/* Tab Content */}
           <div className="transition-all duration-300">
+            {activeTab === 'farmer' && <FarmerDashboard />}
             {activeTab === 'weather' && <Home />}
             {activeTab === 'meme' && <MemeHome />}
           </div>
